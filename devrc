@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# source this file to setup paths
+
+set -e
+
+PYKE_BASE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+PYKE_DIST_DIR=${PYKE_BASE_DIR}/dist-packages
+PYKE_BIN_DIR=${PYKE_BASE_DIR}/bin
+
+export PYTHONPATH="${PYTHONPATH:+${PYTHONPATH}:}${PYKE_DIST_DIR}"
+export PATH="${PATH:+${PATH}:}${PYKE_BIN_DIR}"
+
