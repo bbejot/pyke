@@ -1,0 +1,20 @@
+#!/bin/env python
+
+import pyke
+
+pyke.add_target(
+    'build-hello',
+    action=pyke.pykefiles['root'].build_cpp_file,
+    args=('src/hello.cpp', 'bin/hello'))
+
+pyke.add_target(
+    'list-targets',
+    action=lambda: print('\n'.join(pyke.list_targets())))
+
+pyke.add_target(
+    'list-stages',
+    action=lambda: print('\n'.join(pyke.list_stages())))
+
+pyke.add_target(
+    'list-all',
+    dependencies=['list-targets', 'list-stages'])

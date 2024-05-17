@@ -1,1 +1,4 @@
 #!/bin/env python
+import pyke.main
+
+pyke.main.main('.')
