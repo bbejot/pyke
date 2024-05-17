@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import os
+from types import NoneType
 
 from .errors import PykeTypeException
 
@@ -22,6 +23,8 @@ def path_split(path):
 
 
 def check_type(var, name, types):
+    if isinstance(types, tuple):
+        types = tuple(NoneType if t is None else t for t in types)
     if not isinstance(var, types):
         raise PykeTypeException(f'Expected {name} to be of type {types}, was of type {type(var)}')
 

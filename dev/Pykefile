@@ -5,12 +5,11 @@ import subprocess as sp
 
 import pyke
 
-pyke.init('0.1')
-
-pyke.set_stages(
-        ['bootstrap', 'configure', 'build', 'run'],
-        config='configure',
-        target_default='build')
+pyke.init(
+    version='0.1',
+    stages=['bootstrap', 'configure', 'build', 'run'],
+    config_stage='configure',
+    default_stage='build')
 
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 

@@ -2,4 +2,4 @@
 
 import pyke
 
-parser = pyke.load('parser')
+parser = pyke.load('hello')

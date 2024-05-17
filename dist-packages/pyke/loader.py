@@ -8,11 +8,14 @@ import sys
 from .utils import path_split
 
 
+# This object may be modified, but not reassigned.  It is safe for
+# other modules to grab it directly
 pykefiles = {}
 
-
+# This allows us to import "Pykefile" files
 if '' not in importlib.machinery.SOURCE_SUFFIXES:
     importlib.machinery.SOURCE_SUFFIXES.append('')
+
 
 def _import_pykefile(name, path):
     canonical_name = f'pyke.pykefiles.{name}'

@@ -1,7 +1,5 @@
 #!/bin/env python
 
-from types import NoneType
-
 from .errors import PykeException
 from .path import Path
 from .stages import get_stage, Stage
@@ -54,7 +52,7 @@ def add_target(name, stage=None, action=None, args=(), kwargs={}, dependencies=[
     """ add a target """
     # public function.  Check all inputs, convert names to objects
     check_type(name, 'name', str)
-    check_type(stage, 'stage', (str, Stage, NoneType))
+    check_type(stage, 'stage', (str, Stage, None))
     check_callable(action, 'action', allow_none=True)
     check_type(args, 'args', (tuple, list))
     check_type(kwargs, 'kwargs', dict)
@@ -72,7 +70,7 @@ def add_target(name, stage=None, action=None, args=(), kwargs={}, dependencies=[
     target = Target(name, action, args, kwargs, dependencies, products, always_run)
     targets_by_name[name] = target
     if stage is None:
-        stage = stages.target_default
+        stage = stages.default_stage
     stage._add_target(target)
 
     return target
