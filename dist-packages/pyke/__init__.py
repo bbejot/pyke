@@ -5,6 +5,7 @@ from .errors import PykeException
 VERSION = '0.1'
 
 def init(version: str, stages:list[str]|tuple[str]=['default'], config_stage:str|None=None, default_stage:str|None='default'):
+    # Of note, all value checking is put in inner_init
     # This bit of convoluted nonsense dummy-proofs the API.  The API is hidden until
     # the user call init, then it appears.
     from .initialize import inner_init

@@ -72,6 +72,8 @@ Conditions also have great flexibility.  Conditions have a "validate" function w
 
 Some Conditions need to keep some state to run validate.  State can only be kept around after the configuration stage.  See the next section for more on this.
 
+Targets that don't have products are allowed, but since there is no way to tell if they need to be run, they will be always be run if selected.
+
 ## Stages and Configuration
 
 A stage is a collection of targets.  Their intent is to produce a logical flow of dependencies where one stage cannot run until the entirety of the previous stages are complete.  Once a stage is complete, its products will not be checked again unless a target from that stage or earlier is requested.

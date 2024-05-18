@@ -17,6 +17,7 @@ def inner_init(version: str, stages:list[str]|tuple[str], config_stage:str|None,
     else:
         initialized = True
 
+    # param checking happens in this function even though it is not in the public API
     check_type(version, 'version', str)
     check_lst_type(stages, 'stages', (list, tuple), str)
     check_type(config_stage, 'config_stage', (str, None))
