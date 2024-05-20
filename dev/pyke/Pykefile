@@ -1,0 +1,8 @@
+#!/bin/env python
+
+import pyke
+
+pyke.load('bootstrap')
+pyke.load('config')
+pyke.load('build')
+pyke.load('run')

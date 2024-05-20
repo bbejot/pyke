@@ -5,20 +5,22 @@ import subprocess as sp
 
 import pyke
 
+CUR_DIR = os.path.dirname(os.path.abspath(__file__))
+BUILD_DIR = os.path.join(CUR_DIR, 'build')
+CXX_COMPILER = 'g++'
+
+
 pyke.init(
     version='0.1',
     stages=['bootstrap', 'configure', 'build', 'run'],
     config_stage='configure',
-    default_stage='build')
+    default_stage='build',
+    cache_dir=BUILD_DIR)
 
-CUR_DIR = os.path.dirname(os.path.abspath(__file__))
-
-BUILD_DIR = os.path.join(CUR_DIR, 'build')
-
-CXX_COMPILER = 'g++'
 
 def build_cpp_file(rel_src, rel_bin):
     sp.check_call([CXX_COMPILER, os.path.join(CUR_DIR, rel_src), os.path.join(BUILD_DIR, rel_bin)], cwd=CUR_DIR, shell=False)
 
 
-src = pyke.load('src')
+pyke.load('src')
+pyke.load('pyke')
