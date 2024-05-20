@@ -1,7 +1,10 @@
 #!/bin/env python
 
+import os
+
 from .errors import PykeException
 from .utils import check_type, check_lst_type
+from .target import Target
 
 
 # These variables are safe to grab after the user calls pyke.init
@@ -12,13 +15,24 @@ default_stage = None
 
 
 class Stage:
-    def __init__(self, name, is_target_default):
+    def __init__(self, name):
         self.name = name
-        self.is_target_default = is_target_default
         self.targets = []
+        self.stage_target = Target(
+            self.stage_target_name(self.name),
+            action=None,
+            args=(),
+            kwargs={},
+            dependencies=self.targets,
+            products=[],
+            always_run=False)
 
     def _add_target(self, target):
         self.targets.append(target)
+
+    @staticmethod
+    def stage_target_name(stage_name):
+        return f'_pyke_{stage_name}-stage'
     
 
 class PreConfigStage(Stage):
@@ -26,27 +40,36 @@ class PreConfigStage(Stage):
 
 
 class ConfigStage(Stage):
-    pass
+    def __init__(self, name, workspace):
+        super().__init__(name)
+        self.workspace = workspace
+        self.stage_init_target = Target(
+            self.stage_target_name(name) + '-init',
+            action=os.makedirs,
+            args=(self.workspace),
+            kwargs={'exist_ok': True},
+            dependencies=[],
+            products=[self.workspace],
+            always_run=False)
 
 
 class PostConfigStage(Stage):
     pass
 
 
-def _make_stages_by_name(stage_names, config_name, default_stage_name):
+def _make_stages_by_name(stage_names, config_name, default_stage_name, workspace):
     global stages, stages_by_name, config, default_stage
 
     stages_by_name = {}
     before_config = True
     for name in stage_names:
-        is_target_default = name == default_stage_name
         if name == config_name:
-            stage = ConfigStage(name, is_target_default)
+            stage = ConfigStage(name, workspace)
             before_config = False
         elif before_config:
-            stage = PreConfigStage(name, is_target_default)
+            stage = PreConfigStage(name)
         else:
-            stage = PostConfigStage(name, is_target_default)
+            stage = PostConfigStage(name)
         stages_by_name[name] = stage
 
     stages = tuple([
@@ -57,10 +80,10 @@ def _make_stages_by_name(stage_names, config_name, default_stage_name):
     default_stage = None if default_stage_name is None else stages_by_name[default_stage_name]
     return stages
 
-
     set_stages(stages, config_stage, default_stage)
 
-def make_stages_by_name(stage_names:list[str]|tuple[str], config_stage_name:str|None, default_stage_name:str|None):
+
+def make_stages_by_name(stage_names:list[str]|tuple[str], config_stage_name:str|None, default_stage_name:str|None, workspace:str|None):
     # this is not part of the public API, but the stages are all coming in by name
     if config_stage_name is not None and config_stage_name not in stage_names:
         raise PykeException(f'Config name ({config_stage_name}) must be one of the stages ({stage_names})')
@@ -71,7 +94,7 @@ def make_stages_by_name(stage_names:list[str]|tuple[str], config_stage_name:str|
     if len(stage_names) != len(set(stage_names)):
         raise PykeException(f'Cannot have repeating stages {stage_names})')
 
-    return _make_stages_by_name(stage_names, config_stage_name, default_stage_name)
+    return _make_stages_by_name(stage_names, config_stage_name, default_stage_name, workspace)
 
 
 def get_stage(name):

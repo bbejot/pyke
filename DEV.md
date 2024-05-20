@@ -50,6 +50,10 @@ One may define a default stage to which targets will be assigned unless otherwis
 
 The Config stage is a special stage that denotes the existence of a directory in which pyke can store its cache.  Prior to this stage, pyke must run statelessly.  Specifically FileConditions are not allowed because they require storing the state of the last time a file was modified.  The user can also store state from one run to another after configuration.  It is recommended that all data needed to build or enact later stages be gathered in the config stage and not modified after that.
 
+## Pyke workspace
+
+Pyke needs a place to store a few files: the workspace.  This is typically the same as the build directory, but it doesn't have to be.  The workspace must exist by the end of the config stage.  After that, stateful conditions / targets can be used.
+
 # "Do We Support It?" Decisions
 
 ## Using ~ in paths: YES

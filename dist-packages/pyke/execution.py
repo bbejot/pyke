@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from .target import get_target
+from .alltargets import get_target
 
 _execd = set([])
 

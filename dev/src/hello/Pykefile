@@ -2,9 +2,11 @@
 
 import pyke
 
+pykeroot = pyke.pykefiles['root']
+
 pyke.add_target(
     'build-hello',
-    action=pyke.pykefiles['root'].build_cpp_file,
+    action=pykeroot.build_cpp_file,
     args=('src/hello/hello.cpp', 'bin/hello'))
 
 pyke.add_target(

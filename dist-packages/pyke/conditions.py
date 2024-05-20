@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from abc import ABC, abstract_method
+from abc import ABC, abstractmethod
 
 from .state import load_state, save_state, NO_STATE
 
@@ -12,11 +12,11 @@ UPDATED = '__UPDATED__'
 
 class Condition(ABC):
     @property
-    @abstract_method
+    @abstractmethod
     def uses_state_property(self):
         pass
 
-    @abstract_method
+    @abstractmethod
     def check(self):
         pass
 
@@ -34,7 +34,7 @@ class StatefulCondition(Condition):
     def uses_state_property(self):
         return True
 
-    @abstract_method
+    @abstractmethod
     def update_state(self):
         pass
 
@@ -117,7 +117,7 @@ class UnchangedCondition(StatefulCondition):
     def __init__(self, state_name):
         self.state_name = state_name
 
-    @abstract_method
+    @abstractmethod
     def calc_state(self):
         pass
 

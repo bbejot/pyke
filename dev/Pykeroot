@@ -15,7 +15,7 @@ pyke.init(
     stages=['bootstrap', 'configure', 'build', 'run'],
     config_stage='configure',
     default_stage='build',
-    cache_dir=BUILD_DIR)
+    workspace=BUILD_DIR)
 
 
 def build_cpp_file(rel_src, rel_bin):
