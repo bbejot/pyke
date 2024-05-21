@@ -1,3 +1,16 @@
 #!/bin/env python
 
+import os
+import subprocess as sp
+
 import pyke
+
+SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def build_cpp_file(rel_src, rel_bin):
+    CXX_COMPILER = pyke.load_state('CXX_COMPILER')
+    src_path = os.path.join(SRC_DIR, rel_src)
+    bin_path = os.path.join(BUILD_DIR, rel_bin)
+    os.makedirs(os.path.dirname(bin_path), exist_ok=True)
+    sp.check_call([CXX_COMPILER, src_path, '-o', bin_path], cwd=SRC_DIR, shell=False)

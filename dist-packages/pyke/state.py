@@ -1,6 +1,7 @@
 #!/bin/env python
 
 import json
+import os
 
 from . import stages
 from .errors import PykeException
@@ -43,6 +44,7 @@ def _init():
 
 
 def _write_state():
+    global _state, _pykecache_path
     assert _pykecache_path is not None
     assert _state is not None
     with open(_pykecache_path, 'w') as fd:
@@ -50,20 +52,26 @@ def _write_state():
 
 
 def _read_state():
+    global _state, _pykecache_path
     assert _pykecache_path is not None
     assert _state is None
-    with open(_pykecache_path, 'w') as fd:
-        json.dump(_state, fd, indent=2)
+    with open(_pykecache_path, 'r') as fd:
+        _state = json.load(fd)
 
 
 def save_state(name:str, item:object, namespace:str='user'):
     _init()
     _state[namespace][name] = item
     # maintaining parity in an inefficient way
+    # TODO: make it not O(n^2).  Preferably better.
     _write_state()
 
 
-def load_state(name:str, namespace:str='user'):
+def load_state(name:str, default=KeyError, namespace:str='user'):
     _init()
-    # let it throw KeyError if it doesn't exist
+
+    if default is not KeyError and name not in _state[namespace]:
+        # PARITY, I SAY!
+        save_state(name, default, namespace)
+
     return _state[namespace][name]

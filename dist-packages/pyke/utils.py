@@ -23,9 +23,13 @@ def path_split(path):
 
 
 def check_type(var, name, types):
-    if isinstance(types, tuple):
-        types = tuple(NoneType if t is None else t for t in types)
-    if not isinstance(var, types):
+    if not isinstance(types, tuple):
+        types = (types,)
+
+    objs = tuple(t for t in types if type(t) is not type)
+    types = tuple(t for t in types if type(t) is type)
+
+    if not isinstance(var, types) and var not in objs:
         raise PykeTypeException(f'Expected {name} to be of type {types}, was of type {type(var)}')
 
 

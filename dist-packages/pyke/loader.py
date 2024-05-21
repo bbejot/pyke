@@ -82,5 +82,8 @@ def load(relpath):
     pykefile_path = _find_pykefile_path(search_dir, relpath)
 
     relname = '.'.join(path_split(relpath))
-    pykefile_name = f'{parent_mod.__name__}.{relname}'
+    assert parent_mod.__name__.startswith('pyke.')
+    parent_pykefile_name = parent_mod.__name__[len('pyke.'):]
+    
+    pykefile_name = f'{parent_pykefile_name}.{relname}'
     return _import_pykefile(pykefile_name, pykefile_path)

@@ -1,3 +1,13 @@
 #!/bin/env python
 
+import os
+import subprocess as sp
+
 import pyke
+
+SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BUILD_DIR = os.path.join(SRC_DIR, 'build')
+
+def run_bin(rel_bin, *args):
+    bin_path = os.path.join(BUILD_DIR, rel_bin)
+    sp.check_call([rel_bin] + list(args), cwd=BUILD_DIR, shell=False)

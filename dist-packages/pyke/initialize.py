@@ -1,10 +1,10 @@
 #!/bin/env python
 
 from .errors import PykeException
-from .alltargets import get_target, add_target, list_targets
-from .stages import make_stages_by_name, get_stage, list_stages
+from .stages import make_stages_by_name, get_stage, list_stages, get_target, add_target, list_targets
 from .loader import load, pykefiles
 from .utils import check_type, check_lst_type
+from .state import save_state, load_state
 
 
 ALLOWED_VERSIONS = ('0.1')
@@ -38,6 +38,8 @@ def inner_init(version: str, stages:list[str]|tuple[str], config_stage:str|None,
             'list_stages': list_stages,
             'load': load,
             'pykefiles': pykefiles,
+            'save_state': save_state,
+            'load_state': load_state,
         }
     else:
         assert version not in ALLOWED_VERSIONS

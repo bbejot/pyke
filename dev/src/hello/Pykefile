@@ -2,21 +2,17 @@
 
 import pyke
 
-pykeroot = pyke.pykefiles['root']
+buildmod = pyke.pykefiles['root.pyke.build']
+runmod = pyke.pykefiles['root.pyke.run']
 
 pyke.add_target(
     'build-hello',
-    action=pykeroot.build_cpp_file,
+    action=buildmod.build_cpp_file,
     args=('src/hello/hello.cpp', 'bin/hello'))
 
-pyke.add_target(
-    'list-targets',
-    action=lambda: print('\n'.join(pyke.list_targets())))
 
 pyke.add_target(
-    'list-stages',
-    action=lambda: print('\n'.join(pyke.list_stages())))
+    'run-hello',
+    action=runmod.run_bin,
+    args=('bin/hello',))
 
-pyke.add_target(
-    'list-all',
-    dependencies=['list-targets', 'list-stages'])

@@ -1,6 +1,6 @@
 #!/bin/env python
 
-from .alltargets import get_target
+from .stages import get_target
 
 _execd = set([])
 
