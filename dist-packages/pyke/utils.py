@@ -42,3 +42,10 @@ def check_callable(var, name, allow_none=False):
     if allow_none and var is None:
         return
     raise PykeTypeException(f'Expected {name} to be callable')
+
+
+def all_or_nothing(*objs):
+    """ Checks to see if either all of the objects are None or none of the objects are None. """
+    # Seems like we need this in a couple places.  Might as well codify it
+    return all([obj is None for obj in objs]) or all([obj is not None for obj in objs])
+    

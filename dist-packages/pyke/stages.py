@@ -52,6 +52,9 @@ class ConfigStage(Stage):
             products=[self.workspace],
             always_run=False)
 
+    def workspace_exists(self):
+        return os.path.isdir(self.workspace)
+
 
 class PostConfigStage(Stage):
     pass
